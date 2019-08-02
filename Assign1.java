@@ -1,9 +1,15 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.PriorityQueue;
+import java.util.Scanner;
 import java.util.Stack;
+
 
 public class Assign1 {
 
@@ -15,29 +21,25 @@ public class Assign1 {
 
     public static final int hArray[] = { H_ZERO, H_DISPLACE, H_MANHATTAN, H_GREATER };
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  throws FileNotFoundException , IOException{
 
         ArrayList<Integer> final_pos = new ArrayList<>();
-        final_pos.add(1);
-        final_pos.add(2);
-        final_pos.add(3);
-        final_pos.add(4);
-        final_pos.add(5);
-        final_pos.add(6);
-        final_pos.add(7);
-        final_pos.add(8);
-        final_pos.add(0);
+        File input_file_start = new File("./start_state.txt");
+        File input_file_goal = new File("./goal_state.txt");
+
+        Scanner sc = new Scanner(input_file_goal);
+        while(sc.hasNextLine()) {
+            final_pos.add(sc.nextInt());
+        }
+
 
         ArrayList<Integer> init_pos = new ArrayList<>();
-        init_pos.add(1);
-        init_pos.add(3);
-        init_pos.add(6);
-        init_pos.add(2);
-        init_pos.add(5);
-        init_pos.add(0);
-        init_pos.add(8);
-        init_pos.add(7);
-        init_pos.add(4);
+
+        sc = new Scanner(input_file_start);
+
+        while(sc.hasNextLine()) {
+            init_pos.add(sc.nextInt());
+        }
 
         ArrayList<HeuristicsTableRow> tableRows = new ArrayList<>();
 
@@ -166,6 +168,19 @@ public class Assign1 {
                     + "Check the output above for the optimal path" + "\t\t" + t.optimalPathCost + "\t\t" + t.totalTime);
         }
 
+        FileWriter fw_output = new FileWriter("./output.txt");
+        fw_output.write("------------------------------------------------------\n");
+        fw_output.write("Heuristics Table:\n");
+
+        fw_output.write(
+                "Method \t\t Total States Explored \t\t Total States Optimal Path \t\t Optimal Path \t\t\t\t Optimal Cost \t Total Time(ms)\n");
+        for (HeuristicsTableRow t : tableRows) {
+            // NumberFormat.getNumberInstance(Locale.US).format(35634646)
+            fw_output.write(getHMethod(t.type) + "\t\t" + NumberFormat.getNumberInstance(Locale.UK).format(t.totStatesExplored) + "\t\t\t\t\t" + t.totStatesOptimalPath + "\t\t"
+                    + "Check the output above for the optimal path" + "\t\t" + t.optimalPathCost + "\t\t" + t.totalTime+"\n");
+        }
+
+        fw_output.close();
     }
 
     public static String getHMethod(int type) {
