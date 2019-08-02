@@ -1,0 +1,7 @@
+------------------------------------------------------
+Heuristics Table:
+Method 		 Total States Explored 		 Total States Optimal Path 		 Optimal Path 				 Optimal Cost 	 Total Time(ms)
+Zero     		50,782					22		Check the output above for the optimal path		21		92.0
+Displacement		6,636					22		Check the output above for the optimal path		21		11.0
+Manhattan		1,320					22		Check the output above for the optimal path		21		4.0
+h(n) > h*(n)		1,246					22		Check the output above for the optimal path		21		7.0
