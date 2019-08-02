@@ -1,0 +1,14 @@
+Please refer to the input files start_state.txt and goal_state.txt for input format
+
+start_state.txt contains the input start state in order of rows
+goal_state.txt contains the input goal state in order of rows
+
+***** 0 is the blank space
+1 to 8 are the other blocks in a state
+
+to compile the file: 
+javac Assign1.java
+
+to run:
+java Assign1
+
