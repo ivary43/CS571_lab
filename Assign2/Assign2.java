@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.PriorityQueue;
@@ -11,7 +12,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 
-public class Assign1 {
+public class Assign2 {
 
     public static final int H_ZERO = 0;
     public static final int H_DISPLACE = 1;
@@ -42,8 +43,12 @@ public class Assign1 {
         }
 
         ArrayList<HeuristicsTableRow> tableRows = new ArrayList<>();
+        HashMap<Integer, HashSet<ArrayList<Integer>>> state_explored_table = new HashMap<>();
+        HashMap<Integer, Boolean> isMonotone = new HashMap<>();
 
         for (int hLoop = 0; hLoop < hArray.length; hLoop++) {
+            state_explored_table.put(hArray[hLoop],  new HashSet<>());
+            isMonotone.put(hArray[hLoop], true);
             Node goal_node = new Node();
             goal_node.points = final_pos;
 
@@ -70,6 +75,7 @@ public class Assign1 {
                     continue;
 
                 closed_list.add(curr_node.points);
+                state_explored_table.get(hArray[hLoop]).add(curr_node.points);
                 countExplored++;
 
                 Node children[] = { moveLeft(curr_node), moveRight(curr_node), moveDown(curr_node), moveUp(curr_node) };
@@ -89,6 +95,9 @@ public class Assign1 {
                         children[i].fn_val = children[i].gn_val + children[i].hn_val;
                         children[i].parent = curr_node;
 
+                        if(children[i].hn_val +1 < curr_node.hn_val ) {
+                            isMonotone.put(hArray[hLoop], false);
+                        }
                         open_list.add(children[i]);
                     }
                 }
@@ -168,6 +177,22 @@ public class Assign1 {
                     + "Check the output above for the optimal path" + "\t\t" + t.optimalPathCost + "\t\t" + t.totalTime);
         }
 
+        
+        for(int i=0;i<hArray.length-1 ;++i){
+
+            for(int j=0 ;j<hArray.length -1;++j){
+                System.out.print(compareCloseList(state_explored_table.get(hArray[i]), state_explored_table.get(hArray[j]))+ " " );
+            }
+            System.out.println();
+        }
+
+
+        System.out.println("\n------ Monotone ----");
+        for(int i=0 ;i< hArray.length-1;++i){
+              System.out.println(getHMethod(hArray[i]) + " ->" + isMonotone.get(hArray[i]));  
+        }
+
+
         FileWriter fw_output = new FileWriter("./output.txt");
         fw_output.write("------------------------------------------------------\n");
         fw_output.write("Heuristics Table:\n");
@@ -181,6 +206,26 @@ public class Assign1 {
         }
 
         fw_output.close();
+    }
+
+    public static int compareCloseList(HashSet<ArrayList<Integer>> h1 , HashSet<ArrayList<Integer>> h2) {
+        
+        //boolean ssss = false ;
+        int count = 0 ;
+        if(h1.size() < h2.size() ){
+            return 0;
+        } else {
+            for(ArrayList<Integer> l2 : h2){
+                if (!h1.contains(l2))  {
+                        return 0;
+                    
+                }
+                    
+            }
+        }
+
+        
+        return 1;
     }
 
     public static String getHMethod(int type) {
@@ -301,9 +346,13 @@ public class Assign1 {
 
             int count = 0;
             for (int i = 0; i < n; ++i) {
-                if ((curr.points.get(i)!=0) &&curr.points.get(i) != goal.points.get(i)) {
+                if ( curr.points.get(i) != goal.points.get(i)) {
                     count++;
                 }
+
+                // if ( (curr.points.get(i) == 0 ) &&curr.points.get(i) != goal.points.get(i)) {
+                //     count++;
+                // }
             }
 
             return count;
@@ -312,8 +361,8 @@ public class Assign1 {
             for (int i = 0; i < n; ++i) {
 
                 if(curr.points.get(i)==0){
-                    continue ;
-            }
+                        continue ;
+                }
 
                 int row_pos = i / _N;
                 int col_pos = i % _N;
@@ -329,7 +378,6 @@ public class Assign1 {
 
         case H_GREATER:
 
-        
             for (int i = 0; i < n; ++i) {
 
                 if(curr.points.get(i)==0){
@@ -364,7 +412,15 @@ class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node o) {
-        return Integer.compare(this.fn_val, o.fn_val);
+
+        if(this.fn_val> o.fn_val) {
+            return 1 ;
+        }else if(this.fn_val < o.fn_val) {
+            return -1 ;
+        } else {
+            return 0 ;
+        }
+        //return Integer.compare(this.fn_val, o.fn_val);
     }
 
 }
