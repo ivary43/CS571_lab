@@ -37,26 +37,49 @@ signal(X, SigM) :- connected(Y, X), signal(Y, SigM).
 signal(1, true).
 signal(2, false).
 signal(3, false).
+signal(4, true).
+signal(5, true).
 
 input(1).
 input(2).
 input(3).
+input(4).
+input(5).
 
-connected(1, in(1, g1)).
-connected(1, in(1, g4)).
-connected(2, in(2, g1)).
-connected(2, in(2, g4)).
-connected(3, in(2, g2)).
-connected(3, in(2, g3)).
-connected(out(g1), in(1, g2)).
-connected(out(g1), in(1, g3)).
-connected(out(g3), in(1, g5)).
-connected(out(g4), in(2, g5)).
+connected(1, in(1, g11)).
+connected(1, in(1, g14)).
+connected(2, in(2, g11)).
+connected(2, in(2, g14)).
+connected(3, in(2, g12)).
+connected(3, in(2, g13)).
+connected(out(g11), in(1, g12)).
+connected(out(g11), in(1, g13)).
+connected(out(g13), in(1, g15)).
+connected(out(g14), in(2, g15)).
 
-type(g1, xorgate).
-type(g2, xorgate).
-type(g3, andgate).
-type(g4, andgate).
-type(g5, orgate).
+connected(4, in(1, g21)).
+connected(4, in(1, g24)).
+connected(5, in(2, g21)).
+connected(5, in(2, g24)).
+connected(out(g15), in(2, g22)).
+connected(out(g15), in(2, g23)).
+connected(out(g21), in(1, g22)).
+connected(out(g21), in(1, g23)).
+connected(out(g23), in(1, g25)).
+connected(out(g24), in(2, g25)).
 
-output:- out(g2).
+type(g11, xorgate).
+type(g12, xorgate).
+type(g13, andgate).
+type(g14, andgate).
+type(g15, orgate).
+
+type(g21, xorgate).
+type(g22, xorgate).
+type(g23, andgate).
+type(g24, andgate).
+type(g25, orgate).
+
+outputLower(X):- signal(out(g12), X).
+outputHigher(X):- signal(out(g22), X).
+outputCarry(X):- signal(out(g25), X).
