@@ -16,15 +16,9 @@ xorgate(true, false, true).
 xorgate(false, true, true).
 xorgate(false, false, false).
 
-% xorgate(A,B):-notgate(B,X), notgate(A,Y), andgate(A,X,Z), andgate(Y,B,W), orgate(Z,W).
-
-% xorgate(A, B) :- orgate(andgate(A, notgate(B)), andgate(notgate(A), B)).
-
 in(N, X) :- andgate(connected(M, in(N, X)), input(M)), signal(M, SigM).
 in(N, X) :- connected(M, in(N, X)), out(M).
 
-% out(X) :- type(X, notgate), connected(A, in(1, X)), !, notgate(signal(in(1, X), M) signal(out(X), Y)).
-signal(out(X), Y) :- type(X, notgate), write('Wire open at NOT gate\n'), !.
 signal(out(X), Y) :- type(X, orgate), connected(A, in(1, X)), connected(B, in(2, X)), signal(in(1, X), M), signal(in(2, X), L), !, orgate(M, L, Y).
 signal(out(X), Y) :- type(X, orgate), write('Wire open at OR gate\n'), !.
 signal(out(X), Y) :- type(X, andgate), connected(A, in(1, X)), connected(B, in(2, X)), signal(in(1, X), M), signal(in(2, X), L), !, andgate(M, L, Y).
