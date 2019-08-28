@@ -1,0 +1,6 @@
+------------------------------------------------------
+Heuristics Table:
+Method 		 Total States Explored 		 Total States Optimal Path 		 Optimal Path 				 Optimal Cost 	 Total Time(ms)
+Displacement		20					-1		Check the output above for the optimal path		-1		2.0
+Manhattan		1,085					-1		Check the output above for the optimal path		-1		22.0
+3*h_dis - 2*h_man		18					-1		Check the output above for the optimal path		-1		0.0
