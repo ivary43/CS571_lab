@@ -19,31 +19,28 @@ public class Assign4_SimulatedAnnealing {
     public static final int H_GREATER = 4;
     public static final int H_CUSTOM = 5;
     public static final int _N = 3;
-    
-    public static double REDUCTION_FACTOR = 0.5; 
-    public static final double THRESHOLD = 0.40; 
 
-    public static final int hArray[] = { H_DISPLACE, H_MANHATTAN, H_CUSTOM};
+    public static double REDUCTION_FACTOR = 0.50;
+    public static final double THRESHOLD = 0.40;
 
-    public static void main(String[] args)  throws FileNotFoundException , IOException{
+    public static final int hArray[] = { H_DISPLACE, H_MANHATTAN, H_CUSTOM };
 
-
+    public static void main(String[] args) throws FileNotFoundException, IOException {
 
         ArrayList<Integer> final_pos = new ArrayList<>();
         File input_file_start = new File("./start_state.txt");
         File input_file_goal = new File("./goal_state.txt");
 
         Scanner sc = new Scanner(input_file_goal);
-        while(sc.hasNextLine()) {
+        while (sc.hasNextLine()) {
             final_pos.add(sc.nextInt());
         }
-
 
         ArrayList<Integer> init_pos = new ArrayList<>();
 
         sc = new Scanner(input_file_start);
 
-        while(sc.hasNextLine()) {
+        while (sc.hasNextLine()) {
             init_pos.add(sc.nextInt());
         }
 
@@ -52,7 +49,7 @@ public class Assign4_SimulatedAnnealing {
         for (int hLoop = 0; hLoop < hArray.length; hLoop++) {
             double T = 373;
             double To = 373;
-            
+
             Node goal_node = new Node();
             goal_node.points = final_pos;
 
@@ -62,21 +59,21 @@ public class Assign4_SimulatedAnnealing {
             init_node.hn_val = gethValue(init_node, goal_node, hArray[hLoop]);
             init_node.fn_val = init_node.hn_val + init_node.gn_val;
 
-            Node curr_node = init_node ;
+            Node curr_node = init_node;
             int countExplored = 0;
             boolean reachedGoal = false;
 
-            int curr_plateau_counter = 0 ;
+            int curr_plateau_counter = 0;
             long startTime = System.currentTimeMillis();
-            Node prev_node = null ;
-            while (curr_node!=null) {
+            Node prev_node = null;
+            while (curr_node != null) {
 
-                if(curr_node.points.equals(goal_node.points)) {
-                    reachedGoal = true ;
+                if (curr_node.points.equals(goal_node.points)) {
+                    reachedGoal = true;
                     goal_node = curr_node;
                     break;
                 }
-                
+
                 countExplored++;
 
                 Node children[] = { moveLeft(curr_node), moveRight(curr_node), moveDown(curr_node), moveUp(curr_node) };
@@ -85,42 +82,41 @@ public class Assign4_SimulatedAnnealing {
 
                 ArrayList<Node> valid_child = new ArrayList<>();
 
-                for(Node c:children ) {
-                        if(c!=null) {
-                            valid_child.add(c);
-                        }
+                for (Node c : children) {
+                    if (c != null) {
+                        valid_child.add(c);
+                    }
                 }
 
-                while(!valid_child.isEmpty()) {
-                        int rand = (int)(Math.random() * valid_child.size());
-                        Node temp_child = valid_child.get(rand);
+                while (!valid_child.isEmpty()) {
+                    int rand = (int) (Math.random() * valid_child.size());
+                    Node temp_child = valid_child.get(rand);
 
-                        temp_child.hn_val = gethValue(temp_child, goal_node, hArray[hLoop]);
-                        temp_child.gn_val = curr_node.gn_val+1;
-                        temp_child.fn_val = temp_child.hn_val+ temp_child.gn_val;
+                    temp_child.hn_val = gethValue(temp_child, goal_node, hArray[hLoop]);
+                    temp_child.gn_val = curr_node.gn_val + 1;
+                    temp_child.fn_val = temp_child.hn_val + temp_child.gn_val;
 
-                        if(curr_node.hn_val>temp_child.hn_val) {
-                            temp = temp_child ;
+                    if (curr_node.hn_val > temp_child.hn_val) {
+                        temp = temp_child;
+                        temp_child.parent = curr_node;
+                        break;
+                    } else {
+                        if (getProb(temp_child.hn_val - curr_node.hn_val, T, THRESHOLD)) {
+                            temp = temp_child;
                             temp_child.parent = curr_node;
-                            break;    
-                        } else {
-                               if(getProb(temp_child.hn_val - curr_node.hn_val,T, THRESHOLD)) {
-                                   temp = temp_child;
-                                   temp_child.parent = curr_node;
-                                   break;
-                               } 
+                            break;
                         }
+                    }
 
-                        valid_child.remove(rand);
+                    valid_child.remove(rand);
                 }
 
-
-               prev_node = curr_node ;
-               curr_node = temp;
-               T = REDUCTION_FACTOR * T;
-            //    T = To * Math.exp(-REDUCTION_FACTOR * countExplored);
-            //    T = REDUCTION_FACTOR * Math.exp(-T);
-            //    REDUCTION_FACTOR = REDUCTION_FACTOR * REDUCTION_FACTOR; 
+                prev_node = curr_node;
+                curr_node = temp;
+                T = REDUCTION_FACTOR * T;
+                // T = To * Math.exp(-REDUCTION_FACTOR * countExplored);
+                // T = REDUCTION_FACTOR * Math.exp(-T);
+                // REDUCTION_FACTOR = REDUCTION_FACTOR * REDUCTION_FACTOR;
             }
 
             long endTime = System.currentTimeMillis();
@@ -196,8 +192,10 @@ public class Assign4_SimulatedAnnealing {
                 "Method \t\t Total States Explored \t\t Total States Optimal Path \t\t Optimal Path \t\t\t\t Optimal Cost \t Total Time(ms)");
         for (HeuristicsTableRow t : tableRows) {
             // NumberFormat.getNumberInstance(Locale.US).format(35634646)
-            System.out.println(getHMethod(t.type) + "\t\t" + NumberFormat.getNumberInstance(Locale.UK).format(t.totStatesExplored) + "\t\t\t\t\t" + t.totStatesOptimalPath + "\t\t"
-                    + "Check the output above for the optimal path" + "\t\t" + t.optimalPathCost + "\t\t" + t.totalTime);
+            System.out.println(getHMethod(t.type) + "\t\t"
+                    + NumberFormat.getNumberInstance(Locale.UK).format(t.totStatesExplored) + "\t\t\t\t\t"
+                    + t.totStatesOptimalPath + "\t\t" + "Check the output above for the optimal path" + "\t\t"
+                    + t.optimalPathCost + "\t\t" + t.totalTime);
         }
 
         FileWriter fw_output = new FileWriter("./output.txt");
@@ -208,23 +206,20 @@ public class Assign4_SimulatedAnnealing {
                 "Method \t\t Total States Explored \t\t Total States Optimal Path \t\t Optimal Path \t\t\t\t Optimal Cost \t Total Time(ms)\n");
         for (HeuristicsTableRow t : tableRows) {
             // NumberFormat.getNumberInstance(Locale.US).format(35634646)
-            fw_output.write(getHMethod(t.type) + "\t\t" + NumberFormat.getNumberInstance(Locale.UK).format(t.totStatesExplored) + "\t\t\t\t\t" + t.totStatesOptimalPath + "\t\t"
-                    + "Check the output above for the optimal path" + "\t\t" + t.optimalPathCost + "\t\t" + t.totalTime+"\n");
+            fw_output.write(getHMethod(t.type) + "\t\t"
+                    + NumberFormat.getNumberInstance(Locale.UK).format(t.totStatesExplored) + "\t\t\t\t\t"
+                    + t.totStatesOptimalPath + "\t\t" + "Check the output above for the optimal path" + "\t\t"
+                    + t.optimalPathCost + "\t\t" + t.totalTime + "\n");
         }
 
         fw_output.close();
     }
 
-
     public static boolean getProb(int delta_h, double T, double threshold) {
-            double boltzman_const = 101 ;
-            double probality = Math.exp(-delta_h/(boltzman_const*T));
-            return probality > threshold ;
+        double boltzman_const = 101;
+        double probality = Math.exp(-delta_h / (boltzman_const * T));
+        return probality > threshold;
     }
-
-
-
-
 
     public static String getHMethod(int type) {
         if (type == H_ZERO)
@@ -265,7 +260,7 @@ public class Assign4_SimulatedAnnealing {
         if (col_pos == _N - 1) {
             return null;
         } else {
-            ArrayList<Integer> new_list =  new ArrayList<>();
+            ArrayList<Integer> new_list = new ArrayList<>();
             new_list.addAll(node.points);
             int temp = new_list.get(row_pos * 3 + (col_pos + 1));
             new_list.set(row_pos * 3 + (col_pos + 1), new_list.get(row_pos * 3 + (col_pos)));
@@ -286,7 +281,7 @@ public class Assign4_SimulatedAnnealing {
         if (col_pos == 0) {
             return null;
         } else {
-            ArrayList<Integer> new_list =  new ArrayList<>();
+            ArrayList<Integer> new_list = new ArrayList<>();
             new_list.addAll(node.points);
             int temp = new_list.get(row_pos * 3 + (col_pos - 1));
             new_list.set(row_pos * 3 + (col_pos - 1), new_list.get(row_pos * 3 + (col_pos)));
@@ -307,7 +302,7 @@ public class Assign4_SimulatedAnnealing {
         if (row_pos == _N - 1) {
             return null;
         } else {
-            ArrayList<Integer> new_list =  new ArrayList<>();
+            ArrayList<Integer> new_list = new ArrayList<>();
             new_list.addAll(node.points);
             int temp = new_list.get(row_pos * 3 + 3 + (col_pos));
             new_list.set(row_pos * 3 + 3 + (col_pos), new_list.get(row_pos * 3 + (col_pos)));
@@ -328,7 +323,7 @@ public class Assign4_SimulatedAnnealing {
         if (row_pos == 0) {
             return null;
         } else {
-            ArrayList<Integer> new_list =  new ArrayList<>();
+            ArrayList<Integer> new_list = new ArrayList<>();
             new_list.addAll(node.points);
             int temp = new_list.get(row_pos * 3 - 3 + (col_pos));
             new_list.set(row_pos * 3 - 3 + (col_pos), new_list.get(row_pos * 3 + (col_pos)));
@@ -350,7 +345,7 @@ public class Assign4_SimulatedAnnealing {
 
             int count = 0;
             for (int i = 0; i < n; ++i) {
-                if (/*(curr.points.get(i)!=0) &&*/curr.points.get(i) != goal.points.get(i)) {
+                if ((curr.points.get(i)!=0) && curr.points.get(i) != goal.points.get(i)) {
                     count++;
                 }
             }
@@ -360,9 +355,9 @@ public class Assign4_SimulatedAnnealing {
 
             for (int i = 0; i < n; ++i) {
 
-                // if(curr.points.get(i)==0){
-                //     continue ;
-                // }
+                if(curr.points.get(i)==0){
+                continue ;
+                }
 
                 int row_pos = i / _N;
                 int col_pos = i % _N;
@@ -376,7 +371,7 @@ public class Assign4_SimulatedAnnealing {
             }
             return value;
 
-        case H_CUSTOM: 
+        case H_CUSTOM:
             return 3 * gethValue(curr, goal, H_DISPLACE) - 2 * gethValue(curr, goal, H_MANHATTAN);
         }
         return 0;

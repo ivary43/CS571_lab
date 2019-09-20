@@ -334,7 +334,7 @@ public class Assign4 {
 
             int count = 0;
             for (int i = 0; i < n; ++i) {
-                if (/*(curr.points.get(i)!=0) &&*/curr.points.get(i) != goal.points.get(i)) {
+                if ((curr.points.get(i)!=0) && curr.points.get(i) != goal.points.get(i)) {
                     count++;
                 }
             }
@@ -344,9 +344,9 @@ public class Assign4 {
 
             for (int i = 0; i < n; ++i) {
 
-                // if(curr.points.get(i)==0){
-                //     continue ;
-                // }
+                if(curr.points.get(i)==0){
+                    continue ;
+                }
 
                 int row_pos = i / _N;
                 int col_pos = i % _N;

@@ -1,0 +1,852 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{assignment6\_q2\_2}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{datasets} \PY{k}{import} \PY{n}{fetch\PYZus{}openml}\PY{p}{,} \PY{n}{load\PYZus{}iris}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{preprocessing} \PY{k}{import} \PY{n}{OneHotEncoder}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{log\PYZus{}loss}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{confusion\PYZus{}matrix}\PY{p}{,} \PY{n}{classification\PYZus{}report}
+        \PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{utils} \PY{k}{import} \PY{n}{shuffle}
+        \PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sn}
+        \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}
+        \PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{k}{def} \PY{n+nf}{sigmoid}\PY{p}{(}\PY{n}{z}\PY{p}{)}\PY{p}{:}
+            \PY{n}{s} \PY{o}{=} \PY{l+m+mi}{1} \PY{o}{/} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{+} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{z}\PY{p}{)}\PY{p}{)}
+            \PY{k}{return} \PY{n}{s}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{k}{def} \PY{n+nf}{compute\PYZus{}multiclass\PYZus{}loss}\PY{p}{(}\PY{n}{Y}\PY{p}{,} \PY{n}{Y\PYZus{}hat}\PY{p}{)}\PY{p}{:}
+        
+            \PY{n}{L\PYZus{}sum} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{multiply}\PY{p}{(}\PY{n}{Y}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{Y\PYZus{}hat}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+            \PY{n}{m} \PY{o}{=} \PY{n}{Y}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{n}{L} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{n}{m}\PY{p}{)} \PY{o}{*} \PY{n}{L\PYZus{}sum}
+        
+            \PY{k}{return} \PY{n}{L}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{n}{iris} \PY{o}{=} \PY{n}{load\PYZus{}iris}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{X} \PY{o}{=} \PY{n}{iris}\PY{o}{.}\PY{n}{data}
+        \PY{n}{y} \PY{o}{=} \PY{n}{iris}\PY{o}{.}\PY{n}{target}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{n}{X}\PY{p}{,}\PY{n}{y} \PY{o}{=} \PY{n}{shuffle}\PY{p}{(}\PY{n}{X}\PY{p}{,}\PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{n}{digits} \PY{o}{=} \PY{l+m+mi}{3}
+        \PY{n}{examples} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+        
+        \PY{n}{y} \PY{o}{=} \PY{n}{y}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{examples}\PY{p}{)}
+        
+        \PY{n}{Y\PYZus{}new} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{n}{digits}\PY{p}{)}\PY{p}{[}\PY{n}{y}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{int32}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{]}
+        \PY{n}{Y\PYZus{}new} \PY{o}{=} \PY{n}{Y\PYZus{}new}\PY{o}{.}\PY{n}{T}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{n}{digits}\PY{p}{,} \PY{n}{examples}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{m} \PY{o}{=} \PY{l+m+mi}{120}
+        \PY{n}{m\PYZus{}test} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{m}
+        
+        \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test} \PY{o}{=} \PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{n}{m}\PY{p}{]}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{X}\PY{p}{[}\PY{n}{m}\PY{p}{:}\PY{p}{]}\PY{o}{.}\PY{n}{T}
+        \PY{n}{Y\PYZus{}train}\PY{p}{,} \PY{n}{Y\PYZus{}test} \PY{o}{=} \PY{n}{Y\PYZus{}new}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{p}{:}\PY{n}{m}\PY{p}{]}\PY{p}{,} \PY{n}{Y\PYZus{}new}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{n}{m}\PY{p}{:}\PY{p}{]}
+        
+        \PY{n}{shuffle\PYZus{}index} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{permutation}\PY{p}{(}\PY{n}{m}\PY{p}{)}
+        \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{Y\PYZus{}train} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{shuffle\PYZus{}index}\PY{p}{]}\PY{p}{,} \PY{n}{Y\PYZus{}train}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{shuffle\PYZus{}index}\PY{p}{]}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{k}{def} \PY{n+nf}{train}\PY{p}{(}\PY{n}{learning\PYZus{}rate} \PY{o}{=} \PY{l+m+mf}{0.1}\PY{p}{,} \PY{n}{epochs} \PY{o}{=} \PY{l+m+mi}{2000}\PY{p}{)}\PY{p}{:}
+            
+            \PY{n}{n\PYZus{}x} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+            \PY{n}{n\PYZus{}h} \PY{o}{=} \PY{l+m+mi}{64}
+        
+            \PY{n}{W1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{n\PYZus{}h}\PY{p}{,} \PY{n}{n\PYZus{}x}\PY{p}{)}
+            \PY{n}{b1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{n\PYZus{}h}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+            \PY{n}{W2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{random}\PY{o}{.}\PY{n}{randn}\PY{p}{(}\PY{n}{digits}\PY{p}{,} \PY{n}{n\PYZus{}h}\PY{p}{)}
+            \PY{n}{b2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{digits}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        
+            \PY{n}{X} \PY{o}{=} \PY{n}{X\PYZus{}train}
+            \PY{n}{Y} \PY{o}{=} \PY{n}{Y\PYZus{}train}
+        
+            \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{epochs}\PY{p}{)}\PY{p}{:}
+        
+                \PY{n}{Z1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{matmul}\PY{p}{(}\PY{n}{W1}\PY{p}{,}\PY{n}{X}\PY{p}{)} \PY{o}{+} \PY{n}{b1}
+                \PY{n}{A1} \PY{o}{=} \PY{n}{sigmoid}\PY{p}{(}\PY{n}{Z1}\PY{p}{)}
+                \PY{n}{Z2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{matmul}\PY{p}{(}\PY{n}{W2}\PY{p}{,}\PY{n}{A1}\PY{p}{)} \PY{o}{+} \PY{n}{b2}
+                \PY{n}{A2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{Z2}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{Z2}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+        
+                \PY{n}{cost} \PY{o}{=} \PY{n}{compute\PYZus{}multiclass\PYZus{}loss}\PY{p}{(}\PY{n}{Y}\PY{p}{,} \PY{n}{A2}\PY{p}{)}
+        
+                \PY{n}{dZ2} \PY{o}{=} \PY{n}{A2}\PY{o}{\PYZhy{}}\PY{n}{Y}
+                \PY{n}{dW2} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{n}{m}\PY{p}{)} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{matmul}\PY{p}{(}\PY{n}{dZ2}\PY{p}{,} \PY{n}{A1}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+                \PY{n}{db2} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{n}{m}\PY{p}{)} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{dZ2}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdims}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        
+                \PY{n}{dA1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{matmul}\PY{p}{(}\PY{n}{W2}\PY{o}{.}\PY{n}{T}\PY{p}{,} \PY{n}{dZ2}\PY{p}{)}
+                \PY{n}{dZ1} \PY{o}{=} \PY{n}{dA1} \PY{o}{*} \PY{n}{sigmoid}\PY{p}{(}\PY{n}{Z1}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{n}{sigmoid}\PY{p}{(}\PY{n}{Z1}\PY{p}{)}\PY{p}{)}
+                \PY{n}{dW1} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{n}{m}\PY{p}{)} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{matmul}\PY{p}{(}\PY{n}{dZ1}\PY{p}{,} \PY{n}{X}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+                \PY{n}{db1} \PY{o}{=} \PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{n}{m}\PY{p}{)} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{dZ1}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdims}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        
+                \PY{n}{W2} \PY{o}{=} \PY{n}{W2} \PY{o}{\PYZhy{}} \PY{n}{learning\PYZus{}rate} \PY{o}{*} \PY{n}{dW2}
+                \PY{n}{b2} \PY{o}{=} \PY{n}{b2} \PY{o}{\PYZhy{}} \PY{n}{learning\PYZus{}rate} \PY{o}{*} \PY{n}{db2}
+                \PY{n}{W1} \PY{o}{=} \PY{n}{W1} \PY{o}{\PYZhy{}} \PY{n}{learning\PYZus{}rate} \PY{o}{*} \PY{n}{dW1}
+                \PY{n}{b1} \PY{o}{=} \PY{n}{b1} \PY{o}{\PYZhy{}} \PY{n}{learning\PYZus{}rate} \PY{o}{*} \PY{n}{db1}
+        
+                \PY{k}{if} \PY{p}{(}\PY{n}{i} \PY{o}{\PYZpc{}} \PY{l+m+mi}{100} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+                    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Epoch}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cost: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cost}\PY{p}{)}
+        
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Final cost:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cost}\PY{p}{)}
+            
+            \PY{n}{Z1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{matmul}\PY{p}{(}\PY{n}{W1}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{)} \PY{o}{+} \PY{n}{b1}
+            \PY{n}{A1} \PY{o}{=} \PY{n}{sigmoid}\PY{p}{(}\PY{n}{Z1}\PY{p}{)}
+            \PY{n}{Z2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{matmul}\PY{p}{(}\PY{n}{W2}\PY{p}{,} \PY{n}{A1}\PY{p}{)} \PY{o}{+} \PY{n}{b2}
+            \PY{n}{A2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{Z2}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{exp}\PY{p}{(}\PY{n}{Z2}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+        
+            \PY{n}{predictions} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{A2}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+            \PY{n}{labels} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{Y\PYZus{}test}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+            
+            \PY{n}{cf\PYZus{}matrix} \PY{o}{=} \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{predictions}\PY{p}{,} \PY{n}{labels}\PY{p}{)}
+            
+            \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+            \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.figsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{]}
+            \PY{n}{label} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{iris}\PY{o}{.}\PY{n}{target\PYZus{}names}\PY{p}{)}
+            \PY{n}{df\PYZus{}cm} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{cf\PYZus{}matrix}\PY{p}{,} \PY{n}{label}\PY{p}{,} \PY{n}{label}\PY{p}{)}
+            \PY{n}{sn}\PY{o}{.}\PY{n}{set}\PY{p}{(}\PY{n}{font\PYZus{}scale}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+            \PY{n}{sn}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{df\PYZus{}cm}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{annot\PYZus{}kws}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{size}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{l+m+mi}{16}\PY{p}{\PYZcb{}}\PY{p}{)}
+            \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+            
+            \PY{n+nb}{print}\PY{p}{(}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{predictions}\PY{p}{,} \PY{n}{labels}\PY{p}{)}\PY{p}{)}
+            
+            \PY{k}{return} \PY{n}{cost}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{cost} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{n}{lr} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+        \PY{k}{for} \PY{n}{x} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{:}
+            \PY{n}{temp} \PY{o}{=} \PY{n}{train}\PY{p}{(}\PY{n}{learning\PYZus{}rate} \PY{o}{=} \PY{p}{(}\PY{n}{x}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{10}\PY{p}{)}
+            \PY{n}{cost}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{temp}\PY{p}{)}
+            \PY{n}{lr}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{x}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Epoch 0 cost:  179.46415903245276
+Epoch 100 cost:  7.841611155766224
+Epoch 200 cost:  6.517747903883593
+Epoch 300 cost:  5.829459262813259
+Epoch 400 cost:  5.319122993488872
+Epoch 500 cost:  4.8694214913741405
+Epoch 600 cost:  4.532778071649286
+Epoch 700 cost:  4.278678785686965
+Epoch 800 cost:  4.065151454299583
+Epoch 900 cost:  3.880676933075973
+Epoch 1000 cost:  3.719493537365884
+Epoch 1100 cost:  3.577618754903425
+Epoch 1200 cost:  3.452015232593288
+Epoch 1300 cost:  3.340272609002172
+Epoch 1400 cost:  3.240434918503163
+Epoch 1500 cost:  3.150889042999696
+Epoch 1600 cost:  3.0702859770517628
+Epoch 1700 cost:  2.9974835042250083
+Epoch 1800 cost:  2.931504590486853
+Epoch 1900 cost:  2.871507303922307
+Final cost: 2.817286240746922
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       0.88      1.00      0.93         7
+           2       1.00      0.92      0.96        13
+
+    accuracy                           0.97        30
+   macro avg       0.96      0.97      0.96        30
+weighted avg       0.97      0.97      0.97        30
+
+Epoch 0 cost:  208.90327820145995
+Epoch 100 cost:  7.430679906323455
+Epoch 200 cost:  4.138717705351518
+Epoch 300 cost:  3.5393676562451084
+Epoch 400 cost:  3.178674929675627
+Epoch 500 cost:  2.9497966203228807
+Epoch 600 cost:  2.7872361086883677
+Epoch 700 cost:  2.665330911012063
+Epoch 800 cost:  2.570196777196827
+Epoch 900 cost:  2.493526048324006
+Epoch 1000 cost:  2.430035832577451
+Epoch 1100 cost:  2.3762231069983617
+Epoch 1200 cost:  2.329682647109837
+Epoch 1300 cost:  2.2887101216615897
+Epoch 1400 cost:  2.2520721446237806
+Epoch 1500 cost:  2.2188908754828773
+Epoch 1600 cost:  2.188617840514441
+Epoch 1700 cost:  2.1610354745052414
+Epoch 1800 cost:  2.1361287036090286
+Epoch 1900 cost:  2.113783407370674
+Final cost: 2.0938370300767644
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       0.88      1.00      0.93         7
+           2       1.00      0.92      0.96        13
+
+    accuracy                           0.97        30
+   macro avg       0.96      0.97      0.96        30
+weighted avg       0.97      0.97      0.97        30
+
+Epoch 0 cost:  170.11673427115056
+Epoch 100 cost:  21.41528212360359
+Epoch 200 cost:  3.870085467639603
+Epoch 300 cost:  3.3452860611657123
+Epoch 400 cost:  3.3445147563100583
+Epoch 500 cost:  2.8723223107573315
+Epoch 600 cost:  2.72489905905316
+Epoch 700 cost:  2.638197285131485
+Epoch 800 cost:  2.6383109261982494
+Epoch 900 cost:  2.508421304818477
+Epoch 1000 cost:  2.454088491715502
+Epoch 1100 cost:  2.4158962968483917
+Epoch 1200 cost:  2.374094015796502
+Epoch 1300 cost:  2.3512376360281046
+Epoch 1400 cost:  2.329205101096199
+Epoch 1500 cost:  2.301591079601314
+Epoch 1600 cost:  2.278342313773745
+Epoch 1700 cost:  2.2545408376112004
+Epoch 1800 cost:  2.2331699994244922
+Epoch 1900 cost:  2.2126035687704935
+Final cost: 2.19868708745848
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_5.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         8
+           2       1.00      1.00      1.00        12
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+Epoch 0 cost:  215.65554998215012
+Epoch 100 cost:  37.446874985894254
+Epoch 200 cost:  32.185511474530664
+Epoch 300 cost:  7.407036490250239
+Epoch 400 cost:  2.765142175193884
+Epoch 500 cost:  2.600294872973171
+Epoch 600 cost:  2.496732060931272
+Epoch 700 cost:  2.4184910660586274
+Epoch 800 cost:  2.3543101766164547
+Epoch 900 cost:  2.2925895768915083
+Epoch 1000 cost:  2.203332936555232
+Epoch 1100 cost:  2.158326976134484
+Epoch 1200 cost:  2.1271567484074994
+Epoch 1300 cost:  2.099986993429427
+Epoch 1400 cost:  2.0755420828866695
+Epoch 1500 cost:  2.053215003592465
+Epoch 1600 cost:  2.0326968558220586
+Epoch 1700 cost:  2.0154056743917055
+Epoch 1800 cost:  2.0638856109995913
+Epoch 1900 cost:  2.0757774515840226
+Final cost: 2.031675752175906
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_7.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       0.88      1.00      0.93         7
+           2       1.00      0.92      0.96        13
+
+    accuracy                           0.97        30
+   macro avg       0.96      0.97      0.96        30
+weighted avg       0.97      0.97      0.97        30
+
+Epoch 0 cost:  62.74173372069596
+Epoch 100 cost:  36.617560475745805
+Epoch 200 cost:  34.95120850100287
+Epoch 300 cost:  2.652966256668732
+Epoch 400 cost:  2.3553250589713106
+Epoch 500 cost:  2.2459702253038953
+Epoch 600 cost:  2.1600723382401372
+Epoch 700 cost:  2.105886478469977
+Epoch 800 cost:  2.0650034316076025
+Epoch 900 cost:  2.0319563411105706
+Epoch 1000 cost:  2.0049118827280727
+Epoch 1100 cost:  1.9816730743385353
+Epoch 1200 cost:  1.960950564223714
+Epoch 1300 cost:  2.4711991472929578
+Epoch 1400 cost:  1.9877132410038048
+Epoch 1500 cost:  1.9788777451358204
+Epoch 1600 cost:  1.9694263232962124
+Epoch 1700 cost:  1.957941760193994
+Epoch 1800 cost:  1.9448542483793485
+Epoch 1900 cost:  1.9318642437299172
+Final cost: 1.933348572371051
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_9.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         8
+           2       1.00      1.00      1.00        12
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+Epoch 0 cost:  85.07867198710639
+Epoch 100 cost:  45.73362034637859
+Epoch 200 cost:  12.241468098370932
+Epoch 300 cost:  2.5264035099631794
+Epoch 400 cost:  2.4802317185832656
+Epoch 500 cost:  2.2961029244434448
+Epoch 600 cost:  2.2252645942029674
+Epoch 700 cost:  2.178858930472833
+Epoch 800 cost:  2.1417476638393755
+Epoch 900 cost:  2.1101072002701664
+Epoch 1000 cost:  2.082255940198187
+Epoch 1100 cost:  2.8294911119469193
+Epoch 1200 cost:  2.0991639639061397
+Epoch 1300 cost:  2.091446708481174
+Epoch 1400 cost:  2.098865408451688
+Epoch 1500 cost:  2.0840170561373217
+Epoch 1600 cost:  2.0643731565081005
+Epoch 1700 cost:  2.0476250905458504
+Epoch 1800 cost:  2.0326518512221883
+Epoch 1900 cost:  2.018571687696576
+Final cost: 2.025918868413879
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_11.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       1.00      1.00      1.00         8
+           2       1.00      1.00      1.00        12
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+Epoch 0 cost:  314.87482309671293
+Epoch 100 cost:  117.23450468967292
+Epoch 200 cost:  96.10629256944657
+Epoch 300 cost:  79.02055276141635
+Epoch 400 cost:  2.3108262087487703
+Epoch 500 cost:  2.176729665176471
+Epoch 600 cost:  2.1132015037316494
+Epoch 700 cost:  2.0618793125001162
+Epoch 800 cost:  2.0194190253864983
+Epoch 900 cost:  1.9816029128854828
+Epoch 1000 cost:  1.9300269608570917
+Epoch 1100 cost:  1.8638197620307004
+Epoch 1200 cost:  1.8378047330183542
+Epoch 1300 cost:  1.8150608235162649
+Epoch 1400 cost:  1.9078829262662318
+Epoch 1500 cost:  1.883750758417029
+Epoch 1600 cost:  1.8661602636383963
+Epoch 1700 cost:  1.8490992422223673
+Epoch 1800 cost:  1.8334631366308862
+Epoch 1900 cost:  1.8198512018033572
+Final cost: 1.7805104138432146
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_13.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       0.88      1.00      0.93         7
+           2       1.00      0.92      0.96        13
+
+    accuracy                           0.97        30
+   macro avg       0.96      0.97      0.96        30
+weighted avg       0.97      0.97      0.97        30
+
+Epoch 0 cost:  223.92546334450915
+Epoch 100 cost:  40.746792224300435
+Epoch 200 cost:  47.30312526254771
+Epoch 300 cost:  61.54741224806546
+Epoch 400 cost:  2.521895048824393
+Epoch 500 cost:  2.3590084612674587
+Epoch 600 cost:  2.282903526359291
+Epoch 700 cost:  2.2252740559881823
+Epoch 800 cost:  2.1760257816223127
+Epoch 900 cost:  2.129503073935676
+Epoch 1000 cost:  2.073312675680368
+Epoch 1100 cost:  2.0182096971673036
+Epoch 1200 cost:  1.9834179010966768
+Epoch 1300 cost:  1.9443770500871587
+Epoch 1400 cost:  2.3818553786943655
+Epoch 1500 cost:  2.061265643993149
+Epoch 1600 cost:  2.0457094477561384
+Epoch 1700 cost:  2.032850034753443
+Epoch 1800 cost:  2.0207546882300793
+Epoch 1900 cost:  2.008969910146327
+Final cost: 1.9418741295968092
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_15.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       0.88      1.00      0.93         7
+           2       1.00      0.92      0.96        13
+
+    accuracy                           0.97        30
+   macro avg       0.96      0.97      0.96        30
+weighted avg       0.97      0.97      0.97        30
+
+Epoch 0 cost:  180.40943975014625
+Epoch 100 cost:  48.24453249088919
+Epoch 200 cost:  46.24292711096147
+Epoch 300 cost:  49.27753729774025
+Epoch 400 cost:  2.456858107547948
+Epoch 500 cost:  2.251943261992536
+Epoch 600 cost:  2.176898187059823
+Epoch 700 cost:  2.311081859850259
+Epoch 800 cost:  2.2767014428043137
+Epoch 900 cost:  2.2445566625018625
+Epoch 1000 cost:  2.2150345209078157
+Epoch 1100 cost:  2.189530441111196
+Epoch 1200 cost:  2.1691684190665317
+Epoch 1300 cost:  2.150553458032096
+Epoch 1400 cost:  2.1312615783386795
+Epoch 1500 cost:  2.111483677505012
+Epoch 1600 cost:  2.091678483483548
+Epoch 1700 cost:  2.07206752022872
+Epoch 1800 cost:  2.052732398947371
+Epoch 1900 cost:  2.0337011062577917
+Final cost: 1.941414832858623
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_17.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       0.88      1.00      0.93         7
+           2       1.00      0.92      0.96        13
+
+    accuracy                           0.97        30
+   macro avg       0.96      0.97      0.96        30
+weighted avg       0.97      0.97      0.97        30
+
+Epoch 0 cost:  191.54641307927764
+Epoch 100 cost:  51.70125097229021
+Epoch 200 cost:  50.083964633975576
+Epoch 300 cost:  42.55300412257264
+Epoch 400 cost:  76.08507714698274
+Epoch 500 cost:  2.312442282016768
+Epoch 600 cost:  2.224986807502777
+Epoch 700 cost:  2.1660205484919435
+Epoch 800 cost:  2.121791449233127
+Epoch 900 cost:  2.085811943396262
+Epoch 1000 cost:  2.0540617836351966
+Epoch 1100 cost:  2.024414606249327
+Epoch 1200 cost:  1.9960518283650477
+Epoch 1300 cost:  1.9689446305271563
+Epoch 1400 cost:  1.942148330155842
+Epoch 1500 cost:  1.9142880574278547
+Epoch 1600 cost:  1.8845133717504876
+Epoch 1700 cost:  1.8517469389465036
+Epoch 1800 cost:  1.8230181065855757
+Epoch 1900 cost:  1.9518917966939562
+Final cost: 1.8708125685198613
+
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_19.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        10
+           1       0.88      1.00      0.93         7
+           2       1.00      0.92      0.96        13
+
+    accuracy                           0.97        30
+   macro avg       0.96      0.97      0.96        30
+weighted avg       0.97      0.97      0.97        30
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+         \PY{n}{plt}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.figsize}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{l+m+mi}{20}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{]}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lr}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{loss}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{lr}\PY{p}{,} \PY{n}{cost}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_9_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
