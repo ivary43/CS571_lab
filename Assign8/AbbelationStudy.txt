@@ -1,0 +1,7 @@
+Abbelation Study
+--------------------
+- On analysis it was concluded that the feature - "POS tags" is important for classes - "ENTY" and "LOC" because drop in accuracy was 9% and 5% respectively.
+
+- Feature - "Length" is important for class - "NUM" because drop in accuracy was 1%.
+
+Please refer to "q1.ipynb" and "q1.pdf" files for full accuracy report on test data. 
